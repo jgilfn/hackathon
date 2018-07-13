@@ -4,6 +4,7 @@ import 'profile.dart';
 import 'maps.dart';
 import 'pills.dart';
 import 'timeline.dart';
+import 'add.dart';
 
 void main() => runApp(new MyApp());
 
@@ -89,17 +90,36 @@ class _MyHomePageState extends State<MyHomePage>
             this._page = newPage;
           });
         },
-        children: <Widget> [
+        children: <Widget>[
           new Profile(),
           new Timeline(),
           new Pills(),
-          new Maps(),
-        ]
-        ,
+          new Maps()
+        ],
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Add info',
+        onPressed: () {
+          AddType _currentType = AddType.AddProfile;
+          if (_page == 0)
+          {
+            _currentType = AddType.AddProfile;
+          }
+          else if (_page == 1)
+          {
+            _currentType = AddType.AddTimeline;
+          }
+          else if (_page == 2)
+          {
+            _currentType = AddType.AddPills;
+          }
+          else if (_page == 3)
+          {
+            _currentType = AddType.AddMaps;
+          }
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Add(_currentType)));
+        },
+        tooltip: 'Adicionar',
         child: new Icon(Icons.add),
       ),
     );
