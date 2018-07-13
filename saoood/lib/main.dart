@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'profile.dart';
+import 'maps.dart';
+import 'pills.dart';
+import 'timeline.dart';
+
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
@@ -85,10 +90,10 @@ class _MyHomePageState extends State<MyHomePage>
           });
         },
         children: <Widget> [
-          new Container(decoration: new BoxDecoration(color: Colors.lightBlue),),
-          new Container(decoration: new BoxDecoration(color: Colors.red)),
-          new Container(decoration: new BoxDecoration(color: Colors.black)),
-                    new Container(decoration: new BoxDecoration(color: Colors.teal))
+          new Profile(),
+          new Timeline(),
+          new Pills(),
+          new Maps(),
         ]
         ,
       ),
