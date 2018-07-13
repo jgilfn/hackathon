@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'profile.dart';
+import 'profilepage.dart';
 import 'maps.dart';
 import 'pills.dart';
 import 'timeline.dart';
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage>
       ),
       bottomNavigationBar: new BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        fixedColor: Colors.black,
+        fixedColor: Colors.lightBlueAccent,
         currentIndex: _page,
         items: <BottomNavigationBarItem>[
           new BottomNavigationBarItem(
@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage>
           new BottomNavigationBarItem(
               icon: new Icon(Icons.access_alarm), title: new Text("Medicação")),
           new BottomNavigationBarItem(
-              icon: new Icon(Icons.access_alarm), title: new Text("Mapa"))
+              icon: new Icon(Icons.location_on), title: new Text("Mapa"))
         ],
         onTap: (index) {
           this._pageController.animateToPage(index,
@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage>
           });
         },
         children: <Widget>[
-          new Profile(),
+          new ProfilePage(),
           new Timeline(),
           new Pills(),
           new Maps()
@@ -119,8 +119,8 @@ class _MyHomePageState extends State<MyHomePage>
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => Add(_currentType)));
         },
-        tooltip: 'Adicionar',
-        child: new Icon(Icons.add),
+        tooltip: 'Editar',
+        child: new Icon(Icons.edit),
       ),
     );
   }

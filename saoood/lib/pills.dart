@@ -18,3 +18,16 @@ class _PillsState extends State<Pills>
     );
   }
 }
+
+class Pill {
+  String name;
+  int period;
+  int startingTime;
+
+  Pill(String setName, int setPeriod, int setStartingTime)
+  {
+    name = setName;
+    period = setPeriod;
+    startingTime = setStartingTime;
+  }
+}
