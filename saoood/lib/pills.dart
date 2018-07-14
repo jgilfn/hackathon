@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 class Pills extends StatefulWidget {
   Pills({Key key}) : super(key: key);
 
@@ -10,11 +12,27 @@ class Pills extends StatefulWidget {
 class _PillsState extends State<Pills> {
   List<Pill> pills;
 
+  @override
+  initState() {
+    super.initState();
+    // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+    var initializationSettingsAndroid =
+        new AndroidInitializationSettings('app_icon');
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        selectNotification: onSelectNotification);
+  }
+  
   List<Widget> buildList() {
     List<Widget> pwidgets = new List<Widget>();
 
     for (Pill p in pills) {
-      pwidgets.add(new Card(
+      if (p.endTime > DateTime.now().millisecondsSinceEpoch || p.endTime == 0)
+      {
+        pwidgets.add(new Card(
           child: new Container(
               padding: EdgeInsets.all(32.0),
               child: new Row(
@@ -34,6 +52,8 @@ class _PillsState extends State<Pills> {
                       ]
                     ))
                   ]))));
+      }
+      
     }
 
     return pwidgets;
@@ -44,13 +64,19 @@ class _PillsState extends State<Pills> {
     pills = new List<Pill>();
 
     pills.add(new Pill("Brufen", 1531523024*1000, 24*60*60*1000));
-    
+
     return new Container(
         decoration: new BoxDecoration(color: Colors.white),
         child: new ListView(
           children: buildList(),
         ));
   }
+
+  void setNotifications ()
+  {
+
+  }
+
 }
 
 class Pill {
@@ -60,10 +86,11 @@ class Pill {
 
   int period;
 
-  Pill(String setName, int setStartingTime, int setPeriod) {
+  Pill(String setName, int setStartingTime, int setPeriod, [int setEndTime = 0]) {
     name = setName;
     period = setPeriod;
     startingTime = setStartingTime;
+    endTime = setEndTime;
   }
 
   String nextIntakeTime () {
@@ -91,5 +118,20 @@ class Pill {
       min = "0" + min;
     }
     return hour + "h" + min + "m";
+  }
+
+  int nextIntakeTimeUnix () {
+
+    int i = 0;
+    int next =startingTime + i*period;
+
+    int currentTime = new DateTime.now().millisecondsSinceEpoch;
+
+    while (next < currentTime)
+    {
+      next = startingTime + i*period;
+      i++;
+    }
+    return next;
   }
 }
