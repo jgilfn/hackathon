@@ -16,6 +16,7 @@ dependencies:
   html: "^0.13.3"
   intl: any
   datetime_picker_formfield: "^0.0.3"
+  splashscreen: any
 
 dev_dependencies:
   flutter_test:
@@ -23,10 +24,7 @@ dev_dependencies:
   flutter_launcher_icons: "^0.5.2"
 
 flutter_icons:
-  android: true 
-  ios: "Example-Icon"
-  image_path: "images/icon.png" 
-# For information on the generic Dart part of this file, see the
+  image_path: "assets/icon.png"
 # following page: https://www.dartlang.org/tools/pub/pubspec
 
 # The following section is specific to Flutter.

@@ -57,9 +57,11 @@ class _AddState extends State<Add> {
     }
     final prefs = await SharedPreferences.getInstance();
     final counter = prefs.getString('pills') ?? 0;
+
+    Pill pill = new Pill(inputName.text,  _time, int.parse(periodController.text) * 60*60*1000, int.parse(_barcode), 0);
+
     if (counter != 0 )
     {
-      Pill pill = new Pill(inputName.text,  _time, int.parse(periodController.text) * 60*60*1000, int.parse(_barcode), 0);
      
      pill.getId().then((v) {
        
@@ -70,8 +72,13 @@ class _AddState extends State<Add> {
     }
     else
     {
-      prefs.setString("pills", json.encode(new Pill(inputName.text,  1531523024 * 1000, 24 * 60 * 60 * 1000, 0, 0)) ); 
-    }
+     pill.getId().then((v) {
+       
+        prefs.setString("pills", prefs.getString('pills') + ";" + json.encode(pill) ).then( (r) {
+          Navigator.pop(context);
+       });
+     });
+     }
   
   }
 
@@ -117,7 +124,7 @@ class _AddState extends State<Add> {
             },
           ),
 
-          new Text("Repetição"), new Column(children: [new TextField(
+          new Text("Repetição"), new Row(children: [new TextField(
             controller: periodController,
             keyboardType: TextInputType.number,
           ), new Text("Horas")]),

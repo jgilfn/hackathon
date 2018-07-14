@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:isolate';
-
+import 'package:splashscreen/splashscreen.dart';
 import 'profilepage.dart';
 import 'maps.dart';
 import 'pills.dart';
@@ -13,12 +13,39 @@ import 'package:flutter/widgets.dart';
 import 'package:local_notifications/local_notifications.dart';
 
 import 'dart:convert';
-
-main() async {
-  runApp(new MyApp());
+void main(){
+  runApp(new MaterialApp(
+    home: new MyApp(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => new _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return new SplashScreen(
+      seconds: 2,
+      navigateAfterSeconds: new Menu(),
+      title: new Text('+Saood',
+      style: new TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20.0
+      ),),
+      imageNetwork: 'https://i.imgur.com/4kHfj6x.png',
+      backgroundColor: Colors.white,
+      styleTextUnderTheLoader: new TextStyle(),
+      photoSize: 100.00,
+      onClick: ()=>print(""),
+      loaderColor: Colors.cyan
+    );
+  }
+}
+
+class Menu extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -54,14 +81,13 @@ class _MyHomePageState extends State<MyHomePage>
     _pageController = new PageController(initialPage: 0);
   }
 
-  @override
+@override
   void dispose() {
     _pageController.dispose();
     super.dispose();
   }
 
   Widget build(BuildContext context) {
-
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
@@ -102,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage>
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
-          AddType _currentType = AddType.AddProfile;
+AddType _currentType = AddType.AddProfile;
           if (_page == 0) {
             _currentType = AddType.AddProfile;
           } else if (_page == 1) {

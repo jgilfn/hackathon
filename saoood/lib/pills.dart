@@ -236,7 +236,7 @@ class Pill {
 
     await fetchPost("https://hydron.tech/hackathon.php?id=" + _id).then((response) {
         print(response.body);
-       name = response.body;
+       name = "Acarbase";//response.body;
       });
   }
 

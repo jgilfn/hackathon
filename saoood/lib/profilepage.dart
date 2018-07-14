@@ -49,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   ListTile(
-                    leading: Icon(Icons.info),
+                    leading: Icon(Icons.priority_high),
                     title: Text('Análises Clínicas'),
                     subtitle: Text('Grupo Sanguíneo: ' +
                         profile.bloodType.toString().replaceAll("BloodType.", "").replaceAll("p", "+").replaceAll("m", "-"))),
