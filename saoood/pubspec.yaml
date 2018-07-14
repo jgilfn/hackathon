@@ -13,6 +13,10 @@ dependencies:
   shared_preferences: any
   map_view: "0.0.12"
   flutter_date_picker: "^0.1.1"
+  html: "^0.13.3"
+  intl: any
+  datetime_picker_formfield: "^0.0.3"
+
 
 dev_dependencies:
   flutter_test:
