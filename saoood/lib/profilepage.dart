@@ -38,7 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         profile.gender.toString().replaceAll("Gender.", " ") +
                         "\nAltura: " +
                         profile.height.toString() +
-                        "m\nPeso: " + profile.weight.toString() + "kg\nIMC: " + profile.bodyMassIndex.toStringAsFixed(1) + "\nTipo de Sangue: " + profile.bloodType.toString().replaceAll("BloodType.", "").replaceAll("p", "+").replaceAll("m", "-"))),
+                        "m\nPeso: " + profile.weight.toString() + "kg\nIMC: " + profile.bodyMassIndex.toStringAsFixed(1) )),
                   
                 ],
               ),
@@ -53,6 +53,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     title: Text('Análises Clínicas'),
                     subtitle: Text('Grupo Sanguíneo: ' +
                         profile.bloodType.toString().replaceAll("BloodType.", "").replaceAll("p", "+").replaceAll("m", "-"))),
+                  
+                ],
+              ),
+            ),
+            new Card(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListTile(
+                    leading: Icon(Icons.priority_high),
+                    title: Text('Outras informações:'),
+                    subtitle: Text('Alergias: ' +
+                        profile.allergies
+                        +"\nFumador: " + profile.smoker.toString())),
                   
                 ],
               ),
