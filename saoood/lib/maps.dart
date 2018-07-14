@@ -39,7 +39,7 @@ class _MapsState extends State<Maps> {
             showUserLocation: true,
             initialCameraPosition:
                 new CameraPosition(new Location(32.679017, -17.0599515), 15.0),
-            title: "Recently Visited"),
+            title: "Locais relacionados com a saúde"),
         toolbarActions: [new ToolbarAction("Close", 1)]);
     mapView.setMarkers(_markers);
 
@@ -57,7 +57,7 @@ class _MapsState extends State<Maps> {
         decoration: new BoxDecoration(color: Colors.white),
         child: new Column(children: <Widget>[
           new RaisedButton(
-            child: new Text("press me"),
+            child: new Text("Abrir Mapa"),
             onPressed: () {
               openMap();
             },
