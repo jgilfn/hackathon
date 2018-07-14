@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:isolate';
 
 import 'profilepage.dart';
 import 'maps.dart';
@@ -6,7 +8,14 @@ import 'pills.dart';
 import 'timeline.dart';
 import 'add.dart';
 
-void main() => runApp(new MyApp());
+import 'package:flutter/widgets.dart';
+
+import 'package:local_notifications/local_notifications.dart';
+
+
+main() async {
+  runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -58,7 +67,9 @@ class _MyHomePageState extends State<MyHomePage>
     super.dispose();
   }
 
+
   Widget build(BuildContext context) {
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
@@ -69,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage>
         currentIndex: _page,
         items: <BottomNavigationBarItem>[
           new BottomNavigationBarItem(
-              icon: new Icon(Icons.account_box), title: new Text("Perfil")),
+              icon: new Icon(Icons.assignment_ind), title: new Text("Perfil")),
           new BottomNavigationBarItem(
               icon: Icon(Icons.access_time), title: new Text("Timeline")),
           new BottomNavigationBarItem(
