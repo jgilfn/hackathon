@@ -124,9 +124,13 @@ class _AddState extends State<Add> {
             },
           ),
 
-          new Text("Repetição"), new Row(children: [new TextField(
+          new Text("Repetição"), new Column(children: [new TextField(
             controller: periodController,
             keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Repetição'
+            ),
           ), new Text("Horas")]),
           
             new ButtonBar(children: [
