@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:local_notifications/local_notifications.dart';
-
-import 'dart:async';
-import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class Pills extends StatefulWidget {
   Pills({Key key}) : super(key: key);
@@ -12,16 +13,9 @@ class Pills extends StatefulWidget {
 }
 
 class _PillsState extends State<Pills> {
-
-  void sendNotification (Pill p, String time) async
-  {
-
-      await LocalNotifications.createNotification(
-        title: p.name,
-        content: "Tomar medicamento às " + time,
-        id: 1
-      );
-
+  void sendNotification(Pill p, String time) async {
+    await LocalNotifications.createNotification(
+        title: p.name, content: "Tomar medicamento às " + time, id: 1);
   }
 
   List<Pill> pills;
@@ -31,7 +25,8 @@ class _PillsState extends State<Pills> {
 
     for (Pill p in pills) {
       if (p.endTime > DateTime.now().millisecondsSinceEpoch || p.endTime == 0) {
-        pwidgets.add(new Card(
+        pwidgets.add(
+          new Card(
             child: new Container(
                 padding: EdgeInsets.all(32.0),
                 child: new Row(
@@ -58,19 +53,61 @@ class _PillsState extends State<Pills> {
     return pwidgets;
   }
 
+  List<Widget> cards = new List<Widget>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    loadPrefs();
+  }
+
   @override
   Widget build(BuildContext context) {
+    /*pills = new List<Pill>();
+    pills.add(new Pill("Brufen", 1531523024 * 1000, 24 * 60 * 60 * 1000, 0, 0));
+    savePrefs();*/
 
-    pills = new List<Pill>();
+    //sendNotification(pills[0], "");
 
-    pills.add(new Pill("Brufen", 1531523024 * 1000, 24 * 60 * 60 * 1000));
+    
 
-    sendNotification(pills[0], "");
-    return new Container(
+    return new GestureDetector(onTap: () { loadPrefs();},child: new Container(
         decoration: new BoxDecoration(color: Colors.white),
         child: new ListView(
-          children: buildList(),
-        ));
+          children: cards,
+        )));
+  }
+
+  Future loadPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    final counter = prefs.getString('pills') ?? 0;
+
+    if (counter != 0) {
+      pills = new List<Pill>();
+      List<String> pillsText = prefs.getString('pills').split(';');
+
+      for (String s in pillsText) {
+        pills.add(new Pill.fromJson(json.decode(s)));
+      }
+    }
+
+    setState(() {
+      cards = buildList();
+    });
+  }
+
+  void savePrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String save = "";
+    for (Pill p in pills) {
+      save += json.encode(p) + ";";
+    }
+
+    save = save.substring(0, save.length - 1);
+
+    prefs.setString('pills', save);
   }
 }
 
@@ -83,12 +120,18 @@ class Pill {
 
   int alarmID;
 
+  int barcode;
+
+  int _id;
+  int get id => _id;
+
   Pill(String setName, int setStartingTime, int setPeriod,
-      [int setEndTime = 0]) {
+      [int setBarcode = 0, int setEndTime = 0]) {
     name = setName;
     period = setPeriod;
     startingTime = setStartingTime;
     endTime = setEndTime;
+    barcode = setBarcode;
   }
 
   String nextIntakeTime() {
@@ -126,4 +169,26 @@ class Pill {
     }
     return next;
   }
+
+  Pill.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        startingTime = json['startingTime'],
+        endTime = json['endTime'],
+        period = json['period'],
+        barcode = json['barcode'];
+
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'startingTime': startingTime,
+        'endTime': endTime,
+        'period': period,
+        'barcode': barcode
+      };
+
+  void getId()
+  {
+    
+  }
+
 }
