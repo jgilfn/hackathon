@@ -11,6 +11,8 @@ dependencies:
   local_notifications: any
   barcode_scan: any
   shared_preferences: any
+  map_view: "0.0.12"
+  flutter_date_picker: "^0.1.1"
 
 dev_dependencies:
   flutter_test:

@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: 'Flutter Demo',
       theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primaryColor: Color.fromARGB(255, 117, 221, 255),
+          secondaryHeaderColor: Color.fromARGB(255, 255, 84, 112)),
       home: new MyHomePage(title: 'saood'),
     );
   }
@@ -60,9 +60,7 @@ class _MyHomePageState extends State<MyHomePage>
     super.dispose();
   }
 
-
   Widget build(BuildContext context) {
-
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
@@ -104,20 +102,13 @@ class _MyHomePageState extends State<MyHomePage>
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
           AddType _currentType = AddType.AddProfile;
-          if (_page == 0)
-          {
+          if (_page == 0) {
             _currentType = AddType.AddProfile;
-          }
-          else if (_page == 1)
-          {
+          } else if (_page == 1) {
             _currentType = AddType.AddTimeline;
-          }
-          else if (_page == 2)
-          {
+          } else if (_page == 2) {
             _currentType = AddType.AddPills;
-          }
-          else if (_page == 3)
-          {
+          } else if (_page == 3) {
             _currentType = AddType.AddMaps;
           }
           Navigator.push(context,
