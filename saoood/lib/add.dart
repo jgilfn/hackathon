@@ -17,10 +17,26 @@ class Add extends StatefulWidget {
 class _AddState extends State<Add> {
   String _title = "Add ";
 
-  
+    Widget addPills;
+
   @override
   Widget build(BuildContext context) {
 
+    if (widget._type == AddType.AddPills)
+    {
+      addPills = new Container(
+        child: new Column(
+          children: [
+            TextFormField(
+  decoration: InputDecoration(
+    labelText: 'Nome do medicamento'
+  ),
+),
+
+          ]
+        )
+      );
+    }
     return new Scaffold(
         appBar: new AppBar(
           title: new Text("Add " + widget._type.toString().replaceFirst("AddType.Add", "")),
@@ -35,4 +51,5 @@ class _AddState extends State<Add> {
         )
       );
   }
+
 }
