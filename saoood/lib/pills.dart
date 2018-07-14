@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:local_notifications/local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Pills extends StatefulWidget {
   Pills({Key key}) : super(key: key);
@@ -64,8 +65,8 @@ class _PillsState extends State<Pills> {
 
   @override
   Widget build(BuildContext context) {
-    /*pills = new List<Pill>();
-    pills.add(new Pill("Brufen", 1531523024 * 1000, 24 * 60 * 60 * 1000, 0, 0));
+    pills = new List<Pill>();
+    /*pills.add(new Pill("Brufen", 1531523024 * 1000, 24 * 60 * 60 * 1000, 0, 0));
     savePrefs();*/
 
     //sendNotification(pills[0], "");
@@ -122,8 +123,8 @@ class Pill {
 
   int barcode;
 
-  int _id;
-  int get id => _id;
+  String _id;
+  String get id => _id;
 
   Pill(String setName, int setStartingTime, int setPeriod,
       [int setBarcode = 0, int setEndTime = 0]) {
@@ -175,7 +176,8 @@ class Pill {
         startingTime = json['startingTime'],
         endTime = json['endTime'],
         period = json['period'],
-        barcode = json['barcode'];
+        barcode = json['barcode'],
+        _id = json['id'];
 
 
   Map<String, dynamic> toJson() => {
@@ -183,12 +185,54 @@ class Pill {
         'startingTime': startingTime,
         'endTime': endTime,
         'period': period,
-        'barcode': barcode
+        'barcode': barcode,
+        'id' : _id
       };
 
-  void getId()
+  Future getId() async
   {
-    
+    //CPEM
+    if (barcode.toString().length == 8)
+    {
+      await fetchPost("https://hydron.tech/hackathon.php?mode=cnpem&value=" + barcode.toString() + "&get=id").then((response) {
+        print(response.body);
+        _id = response.body;
+      });
+
+    }
+    //Nregisto
+    else if (barcode.toString().length == 7)
+    {
+      await fetchPost("https://hydron.tech/hackathon.php?mode=nregisto&value=" + barcode.toString() + "&get=id").then((response) {
+        print(response.body);
+        _id = response.body;
+      });
+    }
+
+    await fetchPost("https://hydron.tech/hackathon.php?id=" + _id).then((response) {
+        print(response.body);
+       name = response.body;
+      });
+  }
+
+  /*Future getName() async {
+      await fetchPost("https://hydron.tech/hackathon.php?id=" + _id).then((response) {
+        print(response.body);
+        name = response.body;
+      });
+  }*/
+
+  Future<http.Response> fetchPost(String site) {
+    return http.get(site);
+  }
+
+  Pill.fromBarcode (int setBarcode)
+  {
+    barcode = setBarcode;
+
+    getId().then((responseID) {
+    });
+
   }
 
 }
