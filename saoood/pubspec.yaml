@@ -17,10 +17,10 @@ dependencies:
   intl: any
   datetime_picker_formfield: "^0.0.3"
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.5.2"
 
 
 # For information on the generic Dart part of this file, see the
@@ -64,3 +64,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
+  flutter_icons:
+    android: true 
+    ios: "Example-Icon"
+    image_path: "images/icon.png"

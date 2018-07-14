@@ -37,7 +37,7 @@ class _AddState extends State<Add> {
 
   String _title = "Add ";
 
-  String _barcode;
+  String _barcode = "";
   Pill _pill;
   Widget add;
 
@@ -59,7 +59,7 @@ class _AddState extends State<Add> {
     final counter = prefs.getString('pills') ?? 0;
     if (counter != 0 )
     {
-      Pill pill = new Pill(inputName.text,  _time, 24 * 60 * 60 * 1000, int.parse(_barcode), 0);
+      Pill pill = new Pill(inputName.text,  _time, int.parse(periodController.text) * 60*60*1000, int.parse(_barcode), 0);
      
      pill.getId().then((v) {
        
@@ -79,15 +79,17 @@ class _AddState extends State<Add> {
 
   final timeFormat = DateFormat("H:mm a");
 
+  int _periodRadioValue = 0;
+
+  final TextEditingController periodController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     if (widget._type == AddType.AddPills) {
       add = new Container(
+        
           padding: EdgeInsets.all(32.0),
           child: new Column(children: <Widget>[
-            TextField(controller: inputName,
-              decoration: InputDecoration(labelText: 'Nome do medicamento'),
-            ),
+            Text("Próxima"),
             new TimePickerFormField (
             format: timeFormat,
             onChanged: (time) {
@@ -114,9 +116,15 @@ class _AddState extends State<Add> {
               }
             },
           ),
+
+          new Text("Repetição"), new Column(children: [new TextField(
+            controller: periodController,
+            keyboardType: TextInputType.number,
+          ), new Text("Horas")]),
+          
             new ButtonBar(children: [
               new RaisedButton(onPressed: scan, child: new Text("Código de Barras")),
-              new RaisedButton(onPressed: save, child: new Text("Guardar"))
+              new RaisedButton(onPressed: (_barcode != "") ? save : null, child: new Text("Guardar"))
             ])
           ]));
     } else {

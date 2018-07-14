@@ -27,7 +27,7 @@ class _PillsState extends State<Pills> {
     for (Pill p in pills) {
       if (p.endTime > DateTime.now().millisecondsSinceEpoch || p.endTime == 0) {
         pwidgets.add(
-          new Card(
+          new Container(padding: EdgeInsets.all(16.0), child: Card(
             child: new Container(
                 padding: EdgeInsets.all(32.0),
                 child: new Row(
@@ -45,9 +45,11 @@ class _PillsState extends State<Pills> {
                               children: <Widget>[
                             new Text("Tomar às"),
                             new Text(p.nextIntakeTime(),
-                                style: new TextStyle(fontSize: 24.0))
+                                style: new TextStyle(fontSize: 24.0)),
+                            new Text(p.nextIntakeDay(),
+                                style: new TextStyle(fontSize: 8.0)),                                
                           ]))
-                    ]))));
+                    ])))));
       }
     }
 
@@ -66,8 +68,8 @@ class _PillsState extends State<Pills> {
   @override
   Widget build(BuildContext context) {
     pills = new List<Pill>();
-    /*pills.add(new Pill("Brufen", 1531523024 * 1000, 24 * 60 * 60 * 1000, 0, 0));
-    savePrefs();*/
+    //pills.add(new Pill("Brufen", 1531523024 * 1000, 24 * 60 * 60 * 1000, 0, 0));
+    //savePrefs();
 
     //sendNotification(pills[0], "");
 
@@ -128,7 +130,7 @@ class Pill {
 
   Pill(String setName, int setStartingTime, int setPeriod,
       [int setBarcode = 0, int setEndTime = 0]) {
-    name = setName;
+    name = "Acarbase"; //setName;
     period = setPeriod;
     startingTime = setStartingTime;
     endTime = setEndTime;
@@ -141,7 +143,7 @@ class Pill {
 
     int currentTime = new DateTime.now().millisecondsSinceEpoch;
 
-    while (next < currentTime) {
+    while (next <= currentTime) {
       next = startingTime + i * period;
       i++;
     }
@@ -156,6 +158,29 @@ class Pill {
       min = "0" + min;
     }
     return hour + "h" + min + "m";
+  }
+
+    String nextIntakeDay() {
+    int i = 0;
+    int next = startingTime + i * period;
+
+    int currentTime = new DateTime.now().millisecondsSinceEpoch;
+
+    while (next <= currentTime) {
+      next = startingTime + i * period;
+      i++;
+    }
+
+    String day = DateTime.fromMillisecondsSinceEpoch(next).day.toString();
+    if (day.length == 1) {
+      day = "0" + day;
+    }
+
+    String month = DateTime.fromMillisecondsSinceEpoch(next).month.toString();
+    if (month.length == 1) {
+      month = "0" + month;
+    }
+    return day + "/" + month;
   }
 
   int nextIntakeTimeUnix() {

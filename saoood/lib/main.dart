@@ -61,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   Widget build(BuildContext context) {
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
@@ -71,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage>
         currentIndex: _page,
         items: <BottomNavigationBarItem>[
           new BottomNavigationBarItem(
-              icon: new Icon(Icons.assignment_ind), title: new Text("Perfil")),
+              icon: new Icon(Icons.assignment_ind), title: new Text("Boletim")),
           new BottomNavigationBarItem(
               icon: Icon(Icons.access_time), title: new Text("Timeline")),
           new BottomNavigationBarItem(
